@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors'); 
 const dotenv = require('dotenv');
 const db = require('./db');
+const session = require('express-session');
 
 dotenv.config();
 
@@ -14,7 +15,16 @@ app.use(cors({
   credentials: true
 }));
 app.use(express.json());
-
+app.use(session({
+  secret: process.env.SESSION_SECRET || 'megaplex-prime-secret-key-2024',
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    secure: false,
+    httpOnly: true,
+    maxAge: 24 * 60 * 60 * 1000 // 24 hours
+  }
+}));
 // Admin credentials from environment variables
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'test@test.com';
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || '1234';
@@ -33,7 +43,7 @@ function requireAuth(req, res, next) {
 
 app.post('/api/auth/login', (req, res) => {
   const { email, password } = req.body;
-  console.log(ADMIN_EMAIL, ADMIN_PASSWORD);
+
   if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
     req.session.isAdmin = true;
     return res.json({ success: true, message: 'Logged in successfully' });
