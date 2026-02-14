@@ -16,8 +16,8 @@ app.use(cors({
 app.use(express.json());
 
 // Admin credentials from environment variables
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'no';
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'no';
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'test@test.com';
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || '1234';
 
 // Auth middleware
 function requireAuth(req, res, next) {
