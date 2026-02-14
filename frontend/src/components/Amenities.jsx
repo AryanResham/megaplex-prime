@@ -1,4 +1,4 @@
-export default function Amenities({ data }) {
+export default function Amenities({ data, highlightField }) {
   const d = data || {};
   const items = d.items || [
     { title: 'Gymnasium' },
@@ -8,6 +8,8 @@ export default function Amenities({ data }) {
     { title: 'Yoga Deck' },
     { title: 'Yoga Deck' },
   ];
+
+  const hl = (field) => highlightField === field ? 'ring-2 ring-green-400 ring-offset-2 bg-green-50/40 rounded-lg transition-all duration-300' : 'transition-all duration-300';
 
   const icons = {
     Gymnasium: (
@@ -53,10 +55,10 @@ export default function Amenities({ data }) {
   return (
     <section id="amenities" className="py-20 bg-white">
       <div className="max-w-4xl mx-auto px-4 sm:px-6">
-        <h2 className=" text-3xl md:text-4xl font-bold text-center text-gray-900 mb-3">
+        <h2 className={` text-3xl md:text-4xl font-bold text-center text-gray-900 mb-3 ${hl('title')}`}>
           {d.title || 'Amenities'}
         </h2>
-        <p className="text-center text-gray-500 max-w-xl mx-auto mb-10 text-sm">
+        <p className={`text-center text-gray-500 max-w-xl mx-auto mb-10 text-sm ${hl('subtitle')}`}>
           {d.subtitle || 'Thoughtfully crafted luxury amenities that fascinate, comfort, and excite to make your experiences memorable'}
         </p>
 
@@ -64,7 +66,7 @@ export default function Amenities({ data }) {
           {items.map((item, i) => (
             <div
               key={i}
-              className="bg-gray-50 rounded-xl p-7 text-center border-2 border-transparent hover:border-green-400 hover:-translate-y-1 hover:shadow-lg transition-all duration-300"
+              className={`bg-gray-50 rounded-xl p-7 text-center border-2 border-transparent hover:border-green-400 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 ${hl(`items.${i}.title`)}`}
             >
               <div className="w-16 h-16 mx-auto mb-4 flex items-center justify-center">
                 {getIcon(item.title)}
@@ -76,7 +78,7 @@ export default function Amenities({ data }) {
           ))}
         </div>
 
-        <button className="block mx-auto bg-green-600 hover:bg-green-700 text-white px-10 py-3 rounded-lg font-semibold text-sm transition-all hover:-translate-y-0.5">
+        <button className={`block mx-auto bg-green-600 hover:bg-green-700 text-white px-10 py-3 rounded-lg font-semibold text-sm transition-all hover:-translate-y-0.5 ${hl('buttonText')}`}>
           {d.buttonText || 'View All'}
         </button>
       </div>

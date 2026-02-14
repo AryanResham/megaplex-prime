@@ -17,14 +17,16 @@ app.use(cors({
   credentials: true
 }));
 app.use(express.json());
+const isProduction = process.env.NODE_ENV === 'production';
+
 app.use(session({
   secret: process.env.SESSION_SECRET || 'megaplex-prime-secret-key-2024',
   resave: false,
   saveUninitialized: false,
   cookie: {
-    secure: true,
+    secure: isProduction,           // true in production (HTTPS), false locally (HTTP)
     httpOnly: true,
-    sameSite: 'none',
+    sameSite: isProduction ? 'none' : 'lax',  // 'none' needs secure=true, so use 'lax' locally
     maxAge: 24 * 60 * 60 * 1000 // 24 hours
   }
 }));

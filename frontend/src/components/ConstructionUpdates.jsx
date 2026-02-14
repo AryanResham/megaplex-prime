@@ -1,4 +1,4 @@
-export default function ConstructionUpdates({ data }) {
+export default function ConstructionUpdates({ data, highlightField }) {
   const d = data || {};
   const items = d.items || [
     { label: 'Site Aerial View' },
@@ -6,6 +6,8 @@ export default function ConstructionUpdates({ data }) {
     { label: 'Landscape Work' },
     { label: 'Interior Finishing' },
   ];
+
+  const hl = (field) => highlightField === field ? 'ring-2 ring-green-400 ring-offset-2 bg-green-50/20 rounded-lg transition-all duration-300' : 'transition-all duration-300';
 
   const images = [
     'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=400&h=300&fit=crop',
@@ -17,7 +19,7 @@ export default function ConstructionUpdates({ data }) {
   return (
     <section className="bg-gradient-to-r from-teal-600 to-teal-400 py-20 text-white">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
-        <h2 className=" text-3xl md:text-4xl font-bold text-center mb-10">
+        <h2 className={` text-3xl md:text-4xl font-bold text-center mb-10 ${hl('title')}`}>
           {d.title || 'Construction Updates'}
         </h2>
 
@@ -25,7 +27,7 @@ export default function ConstructionUpdates({ data }) {
           {items.map((item, i) => (
             <div
               key={i}
-              className="rounded-xl overflow-hidden bg-white/10 hover:-translate-y-1 hover:shadow-xl transition-all duration-300"
+              className={`rounded-xl overflow-hidden bg-white/10 hover:-translate-y-1 hover:shadow-xl transition-all duration-300 ${hl(`items.${i}.label`)}`}
             >
               <img
                 src={images[i % images.length]}

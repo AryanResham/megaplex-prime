@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export default function FloorPlans({ data }) {
+export default function FloorPlans({ data, highlightField }) {
   const d = data || {};
   const tabs = d.tabs || [
     { label: '1 BHK', type: 'Type : 1 BHK', area: 'Area: 380 sq ft to 424 Sq.ft', price: 'Price: Call for price' },
@@ -8,6 +8,8 @@ export default function FloorPlans({ data }) {
     { label: '3 BHK', type: 'Type : 3 BHK', area: 'Area: 850 sq ft to 950 Sq.ft', price: 'Price: Call for price' },
   ];
   const [activeTab, setActiveTab] = useState(0);
+
+  const hl = (field) => highlightField === field ? 'ring-2 ring-green-400 ring-offset-2 bg-green-50/40 rounded-lg transition-all duration-300' : 'transition-all duration-300';
 
   const floorImages = [
     'https://images.unsplash.com/photo-1574362848149-11496d93a7c7?w=500&h=500&fit=crop',
@@ -28,7 +30,7 @@ export default function FloorPlans({ data }) {
             <button
               key={i}
               onClick={() => setActiveTab(i)}
-              className={`px-7 py-2.5 rounded-lg font-semibold text-sm transition-all duration-300 border-2 ${
+              className={`px-7 py-2.5 rounded-lg font-semibold text-sm transition-all duration-300 border-2 ${hl(`tabs.${i}.label`)} ${
                 activeTab === i
                   ? 'bg-green-600 text-white border-green-600'
                   : 'bg-white text-gray-600 border-green-200 hover:border-green-400'
@@ -51,15 +53,15 @@ export default function FloorPlans({ data }) {
 
           <div className="bg-white rounded-xl p-8 shadow-lg">
             <div className="space-y-4">
-              <p className="text-base text-gray-700 pb-4 border-b border-gray-100">
+              <p className={`text-base text-gray-700 pb-4 border-b border-gray-100 ${hl(`tabs.${activeTab}.type`)}`}>
                 <span className="font-semibold text-green-800">Type:</span>{' '}
                 {tabs[activeTab]?.type?.replace('Type : ', '') || '1 BHK'}
               </p>
-              <p className="text-base text-gray-700 pb-4 border-b border-gray-100">
+              <p className={`text-base text-gray-700 pb-4 border-b border-gray-100 ${hl(`tabs.${activeTab}.area`)}`}>
                 <span className="font-semibold text-green-800">Area:</span>{' '}
                 {tabs[activeTab]?.area?.replace('Area: ', '') || '380 sq ft to 424 Sq.ft'}
               </p>
-              <p className="text-base text-gray-700">
+              <p className={`text-base text-gray-700 ${hl(`tabs.${activeTab}.price`)}`}>
                 <span className="font-semibold text-green-800">Price:</span>{' '}
                 {tabs[activeTab]?.price?.replace('Price: ', '') || 'Call for price'}
               </p>
