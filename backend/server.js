@@ -33,6 +33,7 @@ function requireAuth(req, res, next) {
 
 app.post('/api/auth/login', (req, res) => {
   const { email, password } = req.body;
+  console.log(ADMIN_EMAIL, ADMIN_PASSWORD);
   if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
     req.session.isAdmin = true;
     return res.json({ success: true, message: 'Logged in successfully' });
