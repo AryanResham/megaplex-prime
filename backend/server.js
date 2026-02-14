@@ -8,6 +8,8 @@ dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+// Trust Render's reverse proxy (required for secure cookies)
+app.set('trust proxy', 1);
 
 // Middleware
 app.use(cors({
